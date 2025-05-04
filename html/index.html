@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Help UI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="m-0 p-0 overflow-hidden bg-transparent">
+  <div id="help-ui" class="fixed bottom-28 left-1/2 transform -translate-x-1/2 translate-y-32 opacity-0 transition-all duration-300 flex flex-col items-center space-y-2 z-50">
+    
+    <div id="key-circle" class="w-16 h-16 rounded-full bg-black bg-opacity-60 border border-white text-white text-2xl font-bold flex items-center justify-center">
+      E
+    </div>
+    
+    <div id="help-text" class="text-white text-xl bg-black bg-opacity-80 px-4 py-2 rounded whitespace-nowrap">
+      Drücke E, um zu interagieren
+    </div>
+  </div>
+
+  <script>
+    const ui = document.getElementById('help-ui');
+    const key = document.getElementById('key-circle');
+    const text = document.getElementById('help-text');
+
+    window.addEventListener('message', (event) => {
+      const data = event.data;
+
+      if (data.action === 'show') {
+        key.textContent = data.key || 'E';
+        text.textContent = data.text || 'Drücke E, um zu interagieren';
+        ui.classList.remove('translate-y-32', 'opacity-0');
+        ui.classList.add('translate-y-0', 'opacity-100');
+      }
+
+      if (data.action === 'hide') {
+        ui.classList.remove('translate-y-0', 'opacity-100');
+        ui.classList.add('translate-y-32', 'opacity-0');
+      }
+    });
+  </script>
+</body>
+</html>
